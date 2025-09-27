@@ -10,4 +10,4 @@
 
 `example_rigid_contact.py`
 
-![Example Rigid Contact](example_rigid_contant.gif)
+![Example Rigid Contact](example_rigid_contact.gif)
