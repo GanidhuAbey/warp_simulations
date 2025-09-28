@@ -46,18 +46,30 @@ class Example:
             )
         
         quat = wp.quat_from_axis_angle(wp.vec3(0, 0, 1), np.pi / 4.0)
+
+        # Add static collider to offset ball's falling direction
         builder.add_shape_box(
             -1,
             pos=(0, 1.8, 2.0),
             rot=quat,
             hx=0.75,
             hy=0.1,
-            hz=1.0
+            hz=0.2
+        )
+
+        # Ground
+        builder.add_shape_box(
+            -1,
+            pos=(0, 0, 2.0),
+            rot=wp.quat_identity(),
+            hx=10.0,
+            hy=0.1,
+            hz=0.2
         )
 
         # finalize model
         self.model = builder.finalize()
-        self.model.ground = True
+        self.model.ground = False
 
         self.integrator = wp.sim.SemiImplicitIntegrator()
 
