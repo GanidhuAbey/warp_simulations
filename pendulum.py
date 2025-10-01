@@ -9,29 +9,32 @@ os.makedirs("pendulum", exist_ok=True)
 
 # Simulation Data Path
 SIM_DATA_FILE = "pendulum/data.csv"
+GENERATE_DATA = True
 
 # Pendulum parameters
+INITIAL_ANGLE = np.deg2rad(120.0);
 LENGTH = 1.0  # Length of pendulum (m)
 GRAVITY = 9.81  # Acceleration due to gravity (m/s^2)
-DAMPING = 0  # Damping coefficient
-DT = 0.01  # Time step (s)
-NUM_FRAMES = 500  # Number of frames to simulate
+DAMPING = 0.2 # Damping coefficient
+DT = 0.015  # Time step (s)
+NUM_FRAMES = 2500  # Number of frames to simulate
 MASS = 1.0 # Mass of pendulum bob (only relevant for energy computation)
 USD_PATH = "pendulum/pendulum.usd"
 
 # Create CSV file and write header
-csvfile = open(SIM_DATA_FILE, 'w', newline='')
+if (GENERATE_DATA):
+    csvfile = open(SIM_DATA_FILE, 'w', newline='')
 
-writer = csv.writer(csvfile)
+    writer = csv.writer(csvfile)
 
-# Write system parameters as comments (first few rows)
-writer.writerow(['# SYSTEM PARAMETERS'])
-writer.writerow(['LENGTH', 'GRAVITY', 'DAMPING', 'DT', 'MASS', 'NUM_FRAMES'])
-writer.writerow([LENGTH, GRAVITY, DAMPING, DT, MASS, NUM_FRAMES])
-writer.writerow([])  # Empty row for separation
+    # Write system parameters as comments (first few rows)
+    writer.writerow(['# SYSTEM PARAMETERS'])
+    writer.writerow(['LENGTH', 'GRAVITY', 'DAMPING', 'DT', 'MASS', 'NUM_FRAMES'])
+    writer.writerow([LENGTH, GRAVITY, DAMPING, DT, MASS, NUM_FRAMES])
+    writer.writerow([])  # Empty row for separation
 
-# Write data column headers
-writer.writerow(['frame', 'time', 'theta', 'theta_dot', 'potential_energy', 'kinetic_energy', 'total_energy'])
+    # Write data column headers
+    writer.writerow(['frame', 'time', 'theta', 'theta_dot', 'potential_energy', 'kinetic_energy', 'total_energy'])
 
 # Initialize Warp
 wp.init()
@@ -67,7 +70,7 @@ def update_transforms(
     transforms[1] = wp.transform(wp.vec3(x, y, 0.0), wp.quat_identity())
 
 # Initialize state
-theta = wp.array([np.pi / 3], dtype=float)  # Initial angle (60 degrees)
+theta = wp.array([INITIAL_ANGLE], dtype=float)  # Initial angle
 omega = wp.array([0.0], dtype=float)  # Initial angular velocity
 
 # Create model for rendering
@@ -117,8 +120,9 @@ for frame in range(NUM_FRAMES):
     
     total_energy = potential + kinetic
 
-    # Write data row to CSV
-    writer.writerow([frame, time, theta_np[0], omega_np[0], potential, kinetic, total_energy])
+    if (GENERATE_DATA):
+        # Write data row to CSV
+        writer.writerow([frame, time, theta_np[0], omega_np[0], potential, kinetic, total_energy])
          
     # Integrate pendulum physics
     wp.launch(integrate_pendulum, dim=1, 
