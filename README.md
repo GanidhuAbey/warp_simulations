@@ -4,7 +4,7 @@
 
 `pendulum.py`
 
-![Pendulum](pendulum.gif)
+![Pendulum](pendulum/pendulum.gif)
 
 ## Ball Simulation
 
