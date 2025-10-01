@@ -1,5 +1,11 @@
 # Warp Simulation
 
+## Pendulum
+
+`pendulum.py`
+
+![Pendulum](pendulum.gif)
+
 ## Ball Simulation
 
 `ball_simulation.py`
