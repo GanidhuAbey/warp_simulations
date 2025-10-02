@@ -29,8 +29,8 @@ if (GENERATE_DATA):
 
     # Write system parameters as comments (first few rows)
     writer.writerow(['# SYSTEM PARAMETERS'])
-    writer.writerow(['LENGTH', 'GRAVITY', 'DAMPING', 'DT', 'MASS', 'NUM_FRAMES'])
-    writer.writerow([LENGTH, GRAVITY, DAMPING, DT, MASS, NUM_FRAMES])
+    writer.writerow(['LENGTH', 'GRAVITY', 'DAMPING', 'DT', 'MASS', 'INITIAL_ANGLE', 'NUM_FRAMES'])
+    writer.writerow([LENGTH, GRAVITY, DAMPING, DT, MASS, INITIAL_ANGLE, NUM_FRAMES])
     writer.writerow([])  # Empty row for separation
 
     # Write data column headers
